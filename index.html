@@ -9,16 +9,22 @@
 				background-size: cover;
 				width: 100%;
 			}
+			#car {
+				position: relative;
+				height: 0;
+				width: 100%;
+				padding-top: 50%;
+			}
 			#wheelcnv {
 				width: 25%;
 				position: absolute;
-				top: 37%;
+				top: 38%;
 				left: 15%;
 				cursor: default;
 			}
 			#dashboard {
 				position: absolute;
-				top: 59%;
+				top: 58%;
 				left: 46%;
 				width: 11%;
 				height: 15%;
@@ -40,14 +46,14 @@
 			}
 			#AC {
 				position: absolute;
-				top: 44%;
+				top: 43%;
 				left: 46%;
 				font-size: 25px;
 				font-weight: bold;
 			}
 			#window1 {
 				position: absolute;
-				top: 36%;
+				top: 35%;
 				left: 0%;
 				color: red;
 				font-size: 30px;
@@ -55,8 +61,8 @@
 			}
 			#window2 {
 				position: absolute;
-				top: 52%;
-				left: 94%;
+				top: 51%;
+				left: 93%;
 				text-align: right;
 				color: red;
 				font-size: 30px;
@@ -66,18 +72,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body onload="redrawWheel(0); scrollMenu(0);" onmouseup="mouseUp(event);">
-		<div id="wheeldiv">
-			<canvas id="wheelcnv" width="600px" height="600px" onmousedown="mouseDown(event);" onmousemove="mouseMove(event);">
-				canvas didn't load (yet?)
-			</canvas>
+		<div id="car">
+			<div id="wheeldiv">
+				<canvas id="wheelcnv" width="600px" height="600px" onmousedown="mouseDown(event);" onmousemove="mouseMove(event);">
+					canvas didn't load (yet?)
+				</canvas>
+			</div>
+			<div id="dashboard">
+				<p id="menu"></p>
+				<p id="load"></p>
+			</div>
+			<p id="AC"></p>
+			<p id="window1"></p>
+			<p id="window2"></p>
 		</div>
-		<div id="dashboard">
-			<p id="menu"></p>
-			<p id="load"></p>
-		</div>
-		<p id="AC"></p>
-		<p id="window1"></p>
-		<p id="window2"></p>
 	</body>
 	<script>
 		var cnv = document.getElementById("wheelcnv");
@@ -89,7 +97,7 @@
 		horn.load();
 
 		var menuStrings = ["Toggle AC", "Open radio", "Play a movie", "Toggle windows", "Play a series", "Rick roll yourself"]
-		var loadStrings = ["Toggling...", "Opening...", "Loading...", "Opening...", "Loading...", "Loading..."]
+		var loadStrings = ["Toggling...", "Opening...", "Loading...", "Toggling...", "Loading...", "Loading..."]
 		var menuCycle = 2*Math.PI/6; //The angle at which you go back to the first menu item
 
 		var mouseIsDown = false;
@@ -97,8 +105,7 @@
 		var windowIsOpened = false;
 
 		var prevMouseAngle;
-		var wheelAngle;
-		var turnAmount = 0;
+		var wheelAngle = 0;
 		var menuItemNum = 0;
 
 		function getWheelRadius() {
@@ -153,12 +160,12 @@
 				angleDiff -= 2*Math.PI;
 			else if (currMouseAngle - prevMouseAngle < -5)
 				angleDiff += 2*Math.PI;
-			turnAmount += angleDiff;
-			redrawWheel(turnAmount); //turnAmount is determined by the wheel's angle so this makes sense
+			wheelAngle += angleDiff;
+			redrawWheel(wheelAngle);
 			prevMouseAngle = currMouseAngle;
 
-			if ((Math.round(turnAmount/menuCycle) % 6 + 6) % 6 != menuItemNum) {
-				scrollMenu((Math.round(turnAmount/menuCycle) % 6 + 6) % 6);
+			if ((Math.round(wheelAngle/menuCycle) % 6 + 6) % 6 != menuItemNum) {
+				scrollMenu((Math.round(wheelAngle/menuCycle) % 6 + 6) % 6);
 			}
 		}
 
