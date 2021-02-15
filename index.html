@@ -5,8 +5,8 @@
 			body {
 				background-image: url("emptycar.jpg");
 				background-repeat: no-repeat;
-				background-attachment: scroll;
 				background-size: cover;
+				overflow: hidden;
 				width: 100%;
 			}
 			#car {
@@ -71,7 +71,7 @@
 		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-	<body onload="redrawWheel(0); scrollMenu(0);" onmouseup="mouseUp(event);">
+	<body onload="redrawWheel(0); scrollMenu(0); horn.load();" onmouseup="mouseUp(event);">
 		<div id="car">
 			<div id="wheeldiv">
 				<canvas id="wheelcnv" width="600px" height="600px" onmousedown="mouseDown(event);" onmousemove="mouseMove(event);">
@@ -94,7 +94,6 @@
 		img.src = "wheel.png";
 		var horn = document.createElement("audio");
 		horn.src = "horn.m4a";
-		horn.load();
 
 		var menuStrings = ["Toggle AC", "Open radio", "Play a movie", "Toggle windows", "Play a series", "Rick roll yourself"]
 		var loadStrings = ["Toggling...", "Opening...", "Loading...", "Toggling...", "Loading...", "Loading..."]
